@@ -116,5 +116,9 @@ func main() {
 	wg.Wait()
 	all := append(<-c1, <-c2...)
 	sort.Ints(all)
-	fmt.Printf("The cheapest %s %s costs %d dollars.\n", make, model, all[0])
+	if len(args) == 4 {
+		fmt.Printf("The cheapest %s %s %s costs %d dollars.\n", year, make, model, all[0])
+	} else {
+		fmt.Printf("The cheapest %s %s costs %d dollars.\n", make, model, all[0])
+	}
 }
