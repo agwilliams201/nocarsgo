@@ -14,11 +14,11 @@ import (
 
 var wg sync.WaitGroup
 
-func autotrader(collector colly.Collector, make string, model string, c chan []int) []int {
+func autotrader(collector colly.Collector, make string, model string, year string, c chan []int) []int {
 	wg.Add(1)
 	defer wg.Done()
 	res := []int{}
-	myurl := "https://www.autotrader.com/cars-for-sale/all-cars/" + make + "/" + model
+	myurl := "https://www.autotrader.com/cars-for-sale/all-cars/" + year + "/" + make + "/" + model
 	collector.OnRequest(func(r *colly.Request) {
 		fmt.Println("Visiting", r.URL)
 	})
@@ -53,11 +53,11 @@ func autotrader(collector colly.Collector, make string, model string, c chan []i
 	return res
 }
 
-func ebay(collector colly.Collector, make string, model string, c chan []int) []int {
+func ebay(collector colly.Collector, make string, model string, year string, c chan []int) []int {
 	wg.Add(1)
 	defer wg.Done()
 	res := []int{}
-	myurl := "https://www.ebay.com/sch/i.html?_from=R40&_trksid=p4432023.m570.l1313&_nkw=" + make + "+" + model + "&_sacat=0"
+	myurl := "https://www.ebay.com/sch/i.html?_from=R40&_trksid=p4432023.m570.l1313&_nkw=" + year + "+" + make + "+" + model + "&_sacat=0"
 	collector.OnRequest(func(r *colly.Request) {
 		fmt.Println("Visiting", r.URL)
 	})
@@ -104,9 +104,15 @@ func main() {
 	args := os.Args
 	make := args[1]
 	model := args[2]
+	var year string
+	if len(args) == 4 {
+		year = args[3]
+	} else {
+		year = ""
+	}
 	collector := colly.NewCollector()
-	go autotrader(*collector, make, model, c1)
-	go ebay(*collector, make, model, c2)
+	go autotrader(*collector, make, model, year, c1)
+	go ebay(*collector, make, model, year, c2)
 	wg.Wait()
 	all := append(<-c1, <-c2...)
 	sort.Ints(all)
