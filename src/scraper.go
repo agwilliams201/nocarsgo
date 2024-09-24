@@ -53,7 +53,6 @@ func autotrader(collector colly.Collector, make string, model string, year strin
 		}
 	})
 	collector.Visit(myurl)
-	sort.Ints(res)
 	c <- res
 	return res
 }
@@ -102,7 +101,6 @@ func ebay(collector colly.Collector, make string, model string, year string, c c
 		}
 	})
 	collector.Visit(myurl)
-	sort.Ints(res)
 	c <- res
 	return res
 }
