@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"os"
 	"sync"
 
@@ -115,6 +116,28 @@ func average(arr []int) int {
 	return count / length
 }
 
+func compute_sd(arr []int, avg int) int {
+	sm := 0
+	length := len(arr)
+	for i := 0; i < length; i++ {
+		diff := avg - arr[i]
+		sm += (diff * diff)
+	}
+	return int(math.Sqrt(float64(sm / length)))
+}
+
+func trim_outliers(arr []int) []int {
+	res := []int{}
+	avg := average(arr)
+	sd := compute_sd(arr, avg)
+	for i := 0; i < len(arr); i++ {
+		if int(math.Abs(float64(arr[i]-avg))) <= sd {
+			res = append(res, arr[i])
+		}
+	}
+	return res
+}
+
 func main() {
 	c1 := make(chan []int)
 	c2 := make(chan []int)
@@ -132,11 +155,12 @@ func main() {
 	go ebay(*collector, make, model, year, c2)
 	wg.Wait()
 	all := append(<-c1, <-c2...)
-	sort.Ints(all)
+	trimmed := trim_outliers(all)
+	sort.Ints(trimmed)
 	if len(args) == 4 {
-		fmt.Printf("The cheapest %s %s %s costs %d dollars.\n", year, make, model, all[0])
+		fmt.Printf("The cheapest %s %s %s costs %d dollars.\n", year, make, model, trimmed[0])
 	} else {
-		fmt.Printf("The cheapest %s %s costs %d dollars.\n", make, model, all[0])
+		fmt.Printf("The cheapest %s %s costs %d dollars.\n", make, model, trimmed[0])
 	}
-	fmt.Printf("Its average price is %d dollars.\n", average(all))
+	fmt.Printf("Its average price is %d dollars.\n", average(trimmed))
 }
