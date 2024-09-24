@@ -1,0 +1,4 @@
+cd nocarsgo/src
+go run scraper.go make model year (year is optional)
+requires go1.23.1 and colly (go get github.com/gocolly/colly)
+yes the repo name is an arcade fire reference :)
