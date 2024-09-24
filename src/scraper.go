@@ -54,7 +54,7 @@ func autotrader(collector colly.Collector, make string, model string, year strin
 			}
 			intprice, err := strconv.Atoi(toint)
 			if err != nil {
-				fmt.Println("fuck")
+				fmt.Printf("Could not convert %s to integer.", toint)
 				fmt.Println(err)
 			}
 			res = append(res, intprice)
@@ -100,7 +100,7 @@ func ebay(collector colly.Collector, make string, model string, year string, c c
 			}
 			intprice, err := strconv.Atoi(toint)
 			if err != nil {
-				fmt.Println("fuck")
+				fmt.Printf("Could not convert %s to integer.", toint)
 				fmt.Println(err)
 			}
 			if intprice > 1000 {
