@@ -26,7 +26,11 @@ func autotrader(collector colly.Collector, make string, model string, year strin
 		fmt.Println("Got a response from", r.Request.URL)
 	})
 	collector.OnError(func(r *colly.Response, e error) {
-		fmt.Println("An error occurred:", e)
+		if e.Error() == "Not Found" {
+			fmt.Println("No results on Autotrader :(")
+		} else {
+			fmt.Println("An error occurred:", e)
+		}
 	})
 	collector.OnHTML("div", func(e *colly.HTMLElement) {
 		if strings.Contains(e.Attr("class"), "first-price") {
@@ -65,7 +69,11 @@ func ebay(collector colly.Collector, make string, model string, year string, c c
 		fmt.Println("Got a response from", r.Request.URL)
 	})
 	collector.OnError(func(r *colly.Response, e error) {
-		fmt.Println("An error occurred:", e)
+		if e.Error() == "Not Found" {
+			fmt.Println("No results on EBay :(")
+		} else {
+			fmt.Println("An error occurred:", e)
+		}
 	})
 	collector.OnHTML("span", func(e *colly.HTMLElement) {
 		if strings.Contains(e.Attr("class"), "s-item__price") {
