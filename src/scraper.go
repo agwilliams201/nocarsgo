@@ -5,6 +5,7 @@ import (
 	"math"
 	"os"
 	"sync"
+	"time"
 
 	"sort"
 	"strconv"
@@ -14,6 +15,13 @@ import (
 )
 
 var wg sync.WaitGroup
+
+type Stats struct {
+	avg      int
+	cheapest int
+	raw_arr  []int
+	trimmed  []int
+}
 
 func autotrader(collector colly.Collector, make string, model string, year string, c chan []int) []int {
 	wg.Add(1)
@@ -137,6 +145,7 @@ func trim_outliers(arr []int) []int {
 }
 
 func main() {
+	start := time.Now()
 	c1 := make(chan []int)
 	c2 := make(chan []int)
 	args := os.Args
@@ -155,10 +164,14 @@ func main() {
 	all := append(<-c1, <-c2...)
 	trimmed := trim_outliers(all)
 	sort.Ints(trimmed)
+	stats := Stats{average(trimmed), trimmed[0], all, trimmed}
 	if len(args) == 4 {
-		fmt.Printf("The cheapest %s %s %s costs %d dollars.\n", year, make, model, trimmed[0])
+		fmt.Printf("\nThe cheapest %s %s %s costs %d dollars.\n", year, make, model, stats.cheapest)
 	} else {
-		fmt.Printf("The cheapest %s %s costs %d dollars.\n", make, model, trimmed[0])
+		fmt.Printf("\nThe cheapest %s %s costs %d dollars.\n", make, model, stats.cheapest)
 	}
-	fmt.Printf("Its average price is %d dollars.\n", average(trimmed))
+	fmt.Printf("Its average price is %d dollars.\n", stats.avg)
+	end := time.Now()
+	elapsed := end.Sub(start)
+	fmt.Printf("\nCompleted in %s.\n", elapsed.String())
 }
