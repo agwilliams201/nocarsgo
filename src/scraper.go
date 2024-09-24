@@ -98,6 +98,15 @@ func ebay(collector colly.Collector, make string, model string, year string, c c
 	return res
 }
 
+func average(arr []int) int {
+	count := 0
+	length := len(arr)
+	for i := 0; i < length; i++ {
+		count += arr[i]
+	}
+	return count / length
+}
+
 func main() {
 	c1 := make(chan []int)
 	c2 := make(chan []int)
@@ -121,4 +130,5 @@ func main() {
 	} else {
 		fmt.Printf("The cheapest %s %s costs %d dollars.\n", make, model, all[0])
 	}
+	fmt.Printf("Its average price is %d dollars.\n", average(all))
 }
