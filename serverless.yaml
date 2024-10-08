@@ -1,0 +1,22 @@
+service: serverless-go
+frameworkVersion: '>= 4.4.4'
+useDotenv: true
+provider:
+  name: aws
+  runtime: provided.al2
+  region: us-east-2
+  stage: ${opt:stage, 'dev'}
+
+functions:
+  scraper:
+    memorySize: 3008
+    timeout: 10
+    handler: bin/main
+    events:
+      - http:
+          path: /greetings
+          method: GET
+
+package:
+  patterns:
+    - bin/*

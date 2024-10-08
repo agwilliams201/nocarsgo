@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"math"
 	"os"
@@ -11,6 +12,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/gocolly/colly"
 )
 
@@ -144,7 +146,12 @@ func trim_outliers(arr []int) []int {
 	return res
 }
 
+func handler(ctx context.Context) (string, error) {
+	return fmt.Sprintf("Hello from Go custom runtime!"), nil
+}
+
 func main() {
+	lambda.Start(handler)
 	start := time.Now()
 	c1 := make(chan []int)
 	c2 := make(chan []int)
