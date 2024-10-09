@@ -9,14 +9,22 @@ provider:
 
 functions:
   scraper:
-    memorySize: 3008
-    timeout: 10
-    handler: bin/main
+    handler: bootstrap
+    memorySize: 128
+    timeout: 30
     events:
       - http:
-          path: /greetings
-          method: GET
+          path: scraper
+          method: get
+          request:
+            parameters:
+              querystrings:
+                make: true
+                model: true
+                year: false  
 
 package:
-  patterns:
-    - bin/*
+  include:
+    - bootstrap 
+  exclude:
+    - ./**
