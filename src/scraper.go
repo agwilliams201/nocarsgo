@@ -148,41 +148,27 @@ func trim_outliers(arr []int) []int {
 }
 
 func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	// Extract parameters from the API Gateway event
 	carmake := event.QueryStringParameters["make"]
 	model := event.QueryStringParameters["model"]
 	year := event.QueryStringParameters["year"]
 
-	// Default year if not provided
-	if year == "" {
-		year = "2022" // Provide a default year if one is not provided in the request
-	}
-
-	// Initialize the Colly collector
 	collector := colly.NewCollector()
 
-	// Channels for scraping results
 	c1 := make(chan []int)
 	c2 := make(chan []int)
 
-	// Start scraping in separate goroutines
 	go autotrader(*collector, carmake, model, year, c1)
 	go ebay(*collector, carmake, model, year, c2)
 
-	// Wait for the goroutines to complete
 	wg.Wait()
 
-	// Collect and process the results
 	all := append(<-c1, <-c2...)
 	trimmed := trim_outliers(all)
 	sort.Ints(trimmed)
 	stats := Stats{average(trimmed), trimmed[0], all, trimmed}
 
-	// Create a response message
 	resultMessage := fmt.Sprintf("The cheapest %s %s %s costs %d dollars. Its average price is %d dollars.",
 		year, carmake, model, stats.cheapest, stats.avg)
-
-	// Return a successful response
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
 		Body:       resultMessage,

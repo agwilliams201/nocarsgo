@@ -103,7 +103,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-2-82829834-6515",
-                "S3Key": "serverless/serverless-go/prod/1728499276482-2024-10-09T18:41:16.482Z/serverless-go.zip"
+                "S3Key": "serverless/serverless-go/prod/1728677515399-2024-10-11T20:11:55.399Z/serverless-go.zip"
               },
               "Handler": "bootstrap",
               "Runtime": "provided.al2",
@@ -121,14 +121,14 @@
               "ScraperLogGroup"
             ]
           },
-          "ScraperLambdaVersionBJY2dKtUEI2SvZcQwK9BPDneJTGbUoGbwEgRlT2bXBA": {
+          "ScraperLambdaVersionSNLMrLuRRXuiLyzHMgbIgnwUz15POUmc99E31n62M": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ScraperLambdaFunction"
               },
-              "CodeSha256": "i18rG8pzmemBBkiTQ2200mMixfNutTIBzL1uXaCa5v8="
+              "CodeSha256": "QeHpf54UQEeqWY3eWSjBfEMoT8ADpCkCY0WCrQzuqdo="
             }
           },
           "ApiGatewayRestApi": {
@@ -222,7 +222,7 @@
               "Name": "serverless-go-prod | Validate request body and querystring parameters"
             }
           },
-          "ApiGatewayDeployment1728499275431": {
+          "ApiGatewayDeployment1728677513758": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -282,7 +282,7 @@
           "ScraperLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ScraperLambdaVersionBJY2dKtUEI2SvZcQwK9BPDneJTGbUoGbwEgRlT2bXBA"
+              "Ref": "ScraperLambdaVersionSNLMrLuRRXuiLyzHMgbIgnwUz15POUmc99E31n62M"
             },
             "Export": {
               "Name": "sls-serverless-go-prod-ScraperLambdaFunctionQualifiedArn"
@@ -345,7 +345,7 @@
         "memory": 128,
         "runtime": "provided.al2",
         "vpc": {},
-        "versionLogicalId": "ScraperLambdaVersionBJY2dKtUEI2SvZcQwK9BPDneJTGbUoGbwEgRlT2bXBA"
+        "versionLogicalId": "ScraperLambdaVersionSNLMrLuRRXuiLyzHMgbIgnwUz15POUmc99E31n62M"
       }
     },
     "configValidationMode": "warn",
@@ -370,7 +370,7 @@
         "artifactsS3KeyDirname": "serverless/serverless-go/prod/code-artifacts",
         "deploymentBucket": "serverless-framework-deployments-us-east-2-82829834-6515",
         "artifact": "/Users/alexwilliams/nocarsgo/.serverless/serverless-go.zip",
-        "artifactDirectoryName": "serverless/serverless-go/prod/1728499276482-2024-10-09T18:41:16.482Z"
+        "artifactDirectoryName": "serverless/serverless-go/prod/1728677515399-2024-10-11T20:11:55.399Z"
       }
     },
     "appId": null,
@@ -379,7 +379,7 @@
     "artifact": "/Users/alexwilliams/nocarsgo/.serverless/serverless-go.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/serverless-go/prod/1728499276482-2024-10-09T18:41:16.482Z",
+    "artifactDirectoryName": "serverless/serverless-go/prod/1728677515399-2024-10-11T20:11:55.399Z",
     "artifact": "serverless-go.zip"
   }
 }
